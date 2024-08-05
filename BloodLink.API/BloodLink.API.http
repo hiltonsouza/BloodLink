@@ -1,0 +1,6 @@
+@BloodLink.API_HostAddress = http://localhost:5269
+
+GET {{BloodLink.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
