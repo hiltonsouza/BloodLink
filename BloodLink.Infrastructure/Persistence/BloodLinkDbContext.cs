@@ -1,4 +1,4 @@
-﻿using BloodLink.Core.Entities;
+using BloodLink.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,6 +18,7 @@ namespace BloodLink.Infrastructure.Persistence
         public DbSet<Donor> Donors { get; set; }
         public DbSet<Donation> Donations { get; set; }
         public DbSet<BloodStock> BloodStocks { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

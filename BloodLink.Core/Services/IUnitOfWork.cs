@@ -1,4 +1,4 @@
-﻿using BloodLink.Core.Repositories;
+using BloodLink.Core.Repositories;
 
 namespace BloodLink.Core.Services
 {
@@ -7,6 +7,7 @@ namespace BloodLink.Core.Services
         IDonationRepository Donations { get; }
         IDonorRepository Donors { get; }
         IBloodStockRepository BloodStocks { get; }
+        IUserRepository Users { get; }
 
         Task<int> CompleteAsync();
         Task BeginTransactionAsync();

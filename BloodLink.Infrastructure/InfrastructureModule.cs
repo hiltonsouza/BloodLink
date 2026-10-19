@@ -1,4 +1,4 @@
-﻿using BloodLink.Core.Repositories;
+using BloodLink.Core.Repositories;
 using BloodLink.Core.Services;
 using BloodLink.Infrastructure.Persistence;
 using BloodLink.Infrastructure.Persistence.Repositories;
@@ -28,6 +28,7 @@ namespace BloodLink.Infrastructure
             services.AddScoped<IDonationRepository, DonationRepository>();
             services.AddScoped<IDonorRepository, DonorRepository>();
             services.AddScoped<IBloodStockRepository, BloodStockRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }
@@ -53,6 +54,7 @@ namespace BloodLink.Infrastructure
         {
             services.AddScoped<INotificationService, NotificationService>(); // Ensure NotificationService implements INotificationService
             services.AddTransient<IViaCepService,ViaCepService>();
+            services.AddScoped<IAuthService, BloodLink.Infrastructure.Auth.AuthService>();
             return services;
         }
     }

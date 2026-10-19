@@ -1,4 +1,4 @@
-﻿using BloodLink.Core.Repositories;
+using BloodLink.Core.Repositories;
 using BloodLink.Core.Services;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
@@ -18,13 +18,15 @@ namespace BloodLink.Infrastructure.Persistence
             BloodLinkDbContext dbContext,
             IDonationRepository donations,
             IBloodStockRepository bloodStocks,
-            IDonorRepository donors
+            IDonorRepository donors,
+            IUserRepository users
             )
         {
             _context = dbContext;
             Donations = donations;
             BloodStocks = bloodStocks;
             Donors = donors;
+            Users = users;
         }
 
         public IDonationRepository Donations { get; }
@@ -32,6 +34,8 @@ namespace BloodLink.Infrastructure.Persistence
         public IDonorRepository Donors { get; }
 
         public IBloodStockRepository BloodStocks { get; }
+
+        public IUserRepository Users { get; }
 
         public async Task BeginTransactionAsync()
         {
