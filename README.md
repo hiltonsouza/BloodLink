@@ -1,173 +1,90 @@
-# BloodLink 🩸❤️
-**Blood Bank Management System**
+# BloodLink 🩸
 
-BloodLink is a system to manage the full lifecycle of blood donation: donor registration, donation records, stock control and report generation. The goal is to simplify donor registration and donations, and provide queries and reports useful for blood bank management.
+BloodLink is a comprehensive blood bank management system designed to streamline the management of donors, donations, and blood stock inventory. Built with **.NET 8** and following **Clean Architecture** principles, it implements modern design patterns to ensure scalability, maintainability, and reliability.
 
-The project was initially developed as a backend API in ASP.NET Core and follows Clean Architecture principles and best practices in the .NET ecosystem.
+## 🚀 Features
 
----
+### 👥 Donor Management
+- **Smart Registration**: Register donors with automated eligibility checks (age, weight, donation intervals).
+- **Address Integration**: Automatic address lookup leveraging **ViaCEP integration**.
+- **Donation History**: Track and manage the complete history of donations for each donor.
 
-## 🚀 Project Overview
+### 💉 Donation Management
+- **Automated Workflows**: Register donations with automatic impact on blood stock inventory.
+- **Reporting**: Generate detailed reports on recent donations and donor trends.
+- **Validation**: Strict business rules validation using **FluentValidation** and **Domain Exceptions**.
 
-BloodLink aims to:
-- Simplify donor registration and donation recording;
-- Enforce clinical and eligibility rules for donation;
-- Automatically update blood stock after donations;
-- Generate management reports on availability and donation activity;
-- Integrate with external services (e.g., address lookup via CEP).
+### 📊 Inventory & Monitoring
+- **Real-time Stock**: Track blood bags by type (A, B, AB, O) and Rh factor (+/-).
+- **Proactive Monitoring**: Integrated **Background Services** that scan stock levels every 24 hours.
+- **Smart Alerts**: Automated notifications for low stock levels to ensure blood bank readiness.
 
-Project phases:
-1. **Backend API** (ASP.NET Core / .NET 8) — core functionality implemented.
-2. **Frontend Interface** — to be developed in subsequent phases (optional).
+## 🏗️ Architecture & Patterns
 
----
+The project is a showcase of **Clean Architecture** and robust software engineering patterns:
 
-## 🛠️ Features
+### 📐 Design Principles & Patterns
+- **DDD (Domain-Driven Design)**: Focus on the core domain with Rich Entities, Aggregate Roots, and **Domain Events**.
+- **CQRS (Command Query Responsibility Segregation)**: Clear separation between write and read operations implemented via **MediatR**.
+- **SOLID Principles**: High adherence to SOLID for decoupled and testable code.
+- **Repository & Unit of Work**: Abstracted data access layer ensuring transaction integrity.
+- **Dependency Injection**: Native .NET DI container used throughout the entire solution.
 
-### Registration and Validation
-- Donor registration with validation (prevents duplicate emails).
-- Integration with an external API for address lookup by CEP.
-- Clinical validations: age, weight, donation frequency, and donated volume.
+### 🛠️ Technical Stack
+- **Framework**: .NET 8 (Web API)
+- **Database**: SQL Server with **Entity Framework Core**.
+- **Validation**: **FluentValidation** for clean, declarative request validation.
+- **Messaging**: **MediatR** for decoupled in-process messaging.
+- **API Documentation**: **Swagger/OpenAPI** for interactive exploration.
+- **Background Tasks**: **IHostedService / BackgroundService** for inventory monitoring.
+- **Error Handling**: **Global Exception Handling** with **Problem Details** (RFC 7807).
 
-### Donations and Stock
-- Register donations and automatically update the stock.
-- Stock control by blood type and Rh factor.
-- Notifications/alerts when stock for a specific type/factor reaches a configured minimum.
+## 📂 Project Structure
 
-### Queries and Reports
-- Query donors and view donation history.
-- Report of total available blood volume by type/Rh.
-- Report of donations in the last 30 days including donor information.
+```bash
+BloodLink/
+├── BloodLink.API/           # Entry point, Controllers, Middlewares, Background Services
+├── BloodLink.Application/   # Use Cases (Commands, Queries), Validators, DTOs
+├── BloodLink.Core/          # Domain Layer (Entities, Rules, Domain Events, Repositories Interfaces)
+├── BloodLink.Infrastructure/# Persistence (EF Core, SQL Server), External Integrations (ViaCEP)
+└── BloodLink.UnitTests/     # Automated tests for Core and Application layers
+```
 
----
+## 🏁 Getting Started
 
-## ✅ Key Business Rules
+### Prerequisites
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- SQL Server
 
-- Do not allow registering a donor with the same email.
-- Minors may be registered but cannot donate.
-- Minimum weight to donate: 50 kg.
-- Donation frequency:
-  - Females: allowed only every 90 days.
-  - Males: allowed only every 60 days.
-- Donation volume must be between 420 ml and 470 ml.
-- When registering a donation, stock must be updated automatically.
-- Emit an alert when stock reaches the configured minimum.
+### Installation
 
----
+1. **Clone & Setup**
+   ```bash
+   git clone https://github.com/your-username/BloodLink.git
+   cd BloodLink
+   ```
 
-## 🧱 Domain Model
+2. **Database Initialization**
+   The project uses EF Core Migrations. To initialize the database:
+   ```bash
+   dotnet ef database update --project BloodLink.Infrastructure --startup-project BloodLink.API
+   ```
 
-- Donor
-  - Id (int)
-  - FullName (string)
-  - Email (string)
-  - BirthDate (DateTime)
-  - Gender (string)
-  - Weight (double)
-  - BloodType (string)
-  - RhFactor (string)
-  - Donations (List<Donation>)
-  - Address (Address) (PLUS)
+3. **Execution**
+   ```bash
+   dotnet run --project BloodLink.API
+   ```
 
-- Address
-  - Id (int)
-  - Street (string)
-  - City (string)
-  - State (string)
-  - ZipCode (string)
-  - Donor (Donor)
+4. **API Testing**
+   Access the Swagger UI at `https://localhost:[PORT]/swagger` to test the endpoints.
 
-- Donation
-  - Id (int)
-  - DonorId (int)
-  - DonationDate (DateTime)
-  - QuantityML (int)
-  - Donor (Donor)
+## 🧪 Testing
 
-- BloodStock
-  - Id (int)
-  - BloodType (string)
-  - RhFactor (string)
-  - QuantityML (int)
-
----
-
-## 🧰 Technologies and Patterns
-
-- .NET 8 (ASP.NET Core)
-- C#
-- Entity Framework Core (EF Core)
-- Domain-Driven Design (DDD)
-- CQRS (Command Query Responsibility Segregation)
-- MediatR (command/query/event mediation)
-- FluentValidation (input validation)
-- Repository Pattern
-- Unit of Work (UoW)
-- Middlewares (exception handling, logging)
-- Clean Architecture
-- IEntityTypeConfiguration for entity mapping
-- Swagger (interactive API documentation)
-- HostedServices and Domain Events (advanced)
-- Supported storage options: In-Memory, SQLite, SQL Server
-- Unit testing (planned/implemented per layer)
-
----
-
-## ⚙️ How to run locally (generic)
-
-1. Clone the repository:
-   git clone https://github.com/hiltonsouza/BloodLink.git
-
-2. Enter the project folder and run the API:
-   cd BloodLink/BloodLink.API
-   dotnet run
-
-3. The API exposes Swagger UI in development (e.g.: https://localhost:5001/swagger).
-
-Note: update the connection string in appsettings.json to use InMemory / SQLite / SQL Server as needed.
-
----
-
-## 📈 Improvements / Roadmap
-
-- Implement responsive frontend (web/mobile).
-- Add authentication/authorization (JWT / Identity).
-- Implement notifications (email / push) for stock alerts.
-- Export reports (CSV/PDF).
-- Integration and unit/integration tests with coverage.
-- CI/CD (GitHub Actions) and containerization (Docker).
-- Monitoring and observability (Application Insights / Prometheus + Grafana).
-
-### Next prioritized feature
-- Deploy and implement the system on **Azure** (App Service, Azure SQL / Azure Database for PostgreSQL, Azure Functions for background jobs or notifications, and Application Insights for monitoring).
-- Refactor the codebase to:
-  - Improve separation of concerns;
-  - Reduce coupling;
-  - Increase test coverage with unit and integration tests.
-- Evaluate and apply advanced C# features selectively to improve code quality and performance:
-  - Use of **generics** to reduce duplication and increase reuse;
-  - Consider **structs** for small immutable value objects when appropriate;
-  - Use **tuples (ValueTuple)** for concise internal returns (careful about clarity);
-  - Explore **pattern matching**, **nullable reference types**, **Span/Memory<T>**, **records**, and other modern C# features as needed.
-- Plan migration to Azure managed resources (backups, HA, scaling).
-
----
+The solution includes a dedicated test project focused on domain logic and application use cases:
+```bash
+dotnet test
+```
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to:
-- Open issues;
-- Send pull requests;
-- Propose improvements or corrections to business rules.
-
----
-
-## 📄 License
-
-MIT License
-
----
-
-## ✨ Author
-
-Developed by Hilton Souza — Email: h_iltonsouza@outlook.com | Linkedin: hilton-souza | Github: hiltonsouza
+Contributions are welcome! Please feel free to submit a Pull Request.

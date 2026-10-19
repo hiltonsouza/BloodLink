@@ -11,7 +11,7 @@ namespace BloodLink.Infrastructure.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private IDbContextTransaction _transaction;
+        private IDbContextTransaction? _transaction;
         private readonly BloodLinkDbContext _context;
 
         public UnitOfWork(

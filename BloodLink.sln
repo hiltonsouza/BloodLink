@@ -3,7 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloodLink.API", "BloodLink.API\BloodLink.API.csproj", "{A224C55C-D09F-4094-99C6-0F29FE14CCFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloodLink.API", "BloodLink.API\BloodLink.API.csproj", "{A224C55C-D09F-4094-99C6-0F29FE14CCFC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloodLink.Application", "BloodLink.Application\BloodLink.Application.csproj", "{191BDA6B-B2F2-43C2-80D6-EAA8A7A47A1A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloodLink.Core", "BloodLink.Core\BloodLink.Core.csproj", "{35B9C14D-987C-43A6-8EBC-9E49216C737B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloodLink.Infrastructure", "BloodLink.Infrastructure\BloodLink.Infrastructure.csproj", "{3CB57127-6307-4783-8F14-F16D651E1803}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloodLink.UnitTests", "BloodLink.UnitTests\BloodLink.UnitTests.csproj", "{9FB1CED0-A465-4F63-A3E1-DDC22E97DF2E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{191BDA6B-B2F2-43C2-80D6-EAA8A7A47A1A} = {191BDA6B-B2F2-43C2-80D6-EAA8A7A47A1A}
+		{35B9C14D-987C-43A6-8EBC-9E49216C737B} = {35B9C14D-987C-43A6-8EBC-9E49216C737B}
+		{3CB57127-6307-4783-8F14-F16D651E1803} = {3CB57127-6307-4783-8F14-F16D651E1803}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +28,22 @@ Global
 		{A224C55C-D09F-4094-99C6-0F29FE14CCFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A224C55C-D09F-4094-99C6-0F29FE14CCFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A224C55C-D09F-4094-99C6-0F29FE14CCFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{191BDA6B-B2F2-43C2-80D6-EAA8A7A47A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{191BDA6B-B2F2-43C2-80D6-EAA8A7A47A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{191BDA6B-B2F2-43C2-80D6-EAA8A7A47A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{191BDA6B-B2F2-43C2-80D6-EAA8A7A47A1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35B9C14D-987C-43A6-8EBC-9E49216C737B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35B9C14D-987C-43A6-8EBC-9E49216C737B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35B9C14D-987C-43A6-8EBC-9E49216C737B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35B9C14D-987C-43A6-8EBC-9E49216C737B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CB57127-6307-4783-8F14-F16D651E1803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CB57127-6307-4783-8F14-F16D651E1803}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CB57127-6307-4783-8F14-F16D651E1803}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CB57127-6307-4783-8F14-F16D651E1803}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FB1CED0-A465-4F63-A3E1-DDC22E97DF2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FB1CED0-A465-4F63-A3E1-DDC22E97DF2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FB1CED0-A465-4F63-A3E1-DDC22E97DF2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FB1CED0-A465-4F63-A3E1-DDC22E97DF2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

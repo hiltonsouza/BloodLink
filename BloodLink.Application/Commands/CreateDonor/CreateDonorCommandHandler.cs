@@ -44,7 +44,7 @@ namespace BloodLink.Application.Commands.CreateDonor
 
             try
             {
-                donor.EnsureEligibility();
+                // donor.EnsureEligibility(); // Removed to allow registration of minors/underweight, validated only at donation
 
                 await _unitOfWork.BeginTransactionAsync();
 

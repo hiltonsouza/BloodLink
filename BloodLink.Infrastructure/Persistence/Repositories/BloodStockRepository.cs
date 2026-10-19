@@ -40,6 +40,11 @@ namespace BloodLink.Infrastructure.Persistence.Repositories
             return await bloodStocks.GetPaged<BloodStock>(page, PAGE_SIZE);
         }
 
+        public async Task<List<BloodStock>> GetAllRawAsync()
+        {
+            return await _dbContext.BloodStocks.AsNoTracking().ToListAsync();
+        }
+
         public async Task<List<BloodStock>> GetBloodStockReportAsync(string bloodType, string rhFactor)
         {
             var query = _dbContext.BloodStocks.AsNoTracking().AsQueryable();

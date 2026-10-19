@@ -1,6 +1,7 @@
 ﻿using BloodLink.Application.ViewModels;
 using BloodLink.Core.Configurations;
 using BloodLink.Core.Entities;
+using BloodLink.Core.Events;
 using BloodLink.Core.Exceptions;
 using BloodLink.Core.Repositories;
 using BloodLink.Core.Resources;
@@ -13,10 +14,12 @@ namespace BloodLink.Application.Commands.CreateDonation
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly INotificationService _notificationService;
-        public CreateDonationCommandHandler(IUnitOfWork unitOfWork, INotificationService notificationService)
+        private readonly IMediator _mediator;
+        public CreateDonationCommandHandler(IUnitOfWork unitOfWork, INotificationService notificationService, IMediator mediator)
         {
             _unitOfWork = unitOfWork;
             _notificationService = notificationService;
+            _mediator = mediator;
         }
 
         public async Task<ResultViewModel<int>> Handle(CreateDonationCommand request, CancellationToken cancellationToken)
@@ -45,31 +48,12 @@ namespace BloodLink.Application.Commands.CreateDonation
 
                 await _unitOfWork.Donations.AddAsync(donation);
 
-                var bloodStock = await _unitOfWork.BloodStocks.GetDetailsAsync(donor.BloodType.ToString(), donor.RhFactor);
-
-                if (bloodStock != null)
-                {
-                    // If blood stock exists, increase the volume
-                    bloodStock.IncreaseBloodVolume(donation.BloodVolumeInML);
-                    await _unitOfWork.BloodStocks.UpdateAsync(bloodStock);
-
-                    // Check if the blood stock is below the threshold
-                    if (bloodStock.BloodVolumeInML <= BloodStockThresholds.MinVolumeInML)
-                        await _notificationService.NotifyLowStockAsync(
-                            bloodStock.BloodType,
-                            bloodStock.FactorRh,
-                            bloodStock.BloodVolumeInML
-                        );
-                }
-                else
-                {
-                    bloodStock = new BloodStock(
-                        donor.BloodType.ToString(),
-                        donor.RhFactor,
-                        donation.BloodVolumeInML);
-
-                    await _unitOfWork.BloodStocks.AddAsync(bloodStock);
-                }
+                // Publish Domain Event (Execute Logic to Update Stock in same Context)
+                await _mediator.Publish(new BloodLink.Application.Events.DonationCreated.DonationCreatedNotification(
+                    donation.Id, 
+                    donor.BloodType.ToString(), 
+                    donor.RhFactor, 
+                    donation.BloodVolumeInML), cancellationToken);
 
                 await _unitOfWork.CompleteAsync();
 
