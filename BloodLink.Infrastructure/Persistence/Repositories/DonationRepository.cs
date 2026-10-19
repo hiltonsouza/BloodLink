@@ -1,4 +1,4 @@
-﻿using BloodLink.Core.Entities;
+using BloodLink.Core.Entities;
 using BloodLink.Core.Models;
 using BloodLink.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +22,7 @@ namespace BloodLink.Infrastructure.Persistence.Repositories
 
         public async Task<PaginationResult<Donation>> GetAllAsync(int query, int page)
         {
-            IQueryable<Donation> donations = _dbContext.Donations;
+            IQueryable<Donation> donations = _dbContext.Donations.Include(d => d.Donor);
             if (query > 0)
             {
                 donations = donations
@@ -34,24 +34,27 @@ namespace BloodLink.Infrastructure.Persistence.Repositories
         }
         public async Task<Donation> GetByIdAsync(int id)
         {
-            return await _dbContext.Donations.SingleOrDefaultAsync(d => d.Id == id);
+            return await _dbContext.Donations.Include(d => d.Donor).SingleOrDefaultAsync(d => d.Id == id);
         }
 
         public async Task<PaginationResult<Donation>> GetDonationByDonorIdAsync(int donorId, int page = 1)
         {
             IQueryable<Donation> donations = _dbContext.Donations
+                .Include(d => d.Donor)
                 .Where(d => d.DonorId == donorId);
 
                 return await donations.GetPaged<Donation>(page, PAGE_SIZE);
         }
 
-        //public async Task<PaginationResult<Donation>> GetDonationDetailsAsync(int query, int page = 1)
-        //{
-        //    var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
+        public async Task<List<Donation>> GetLastDaysDonationsAsync(int days)
+        {
+            var dateThreshold = DateTime.Now.AddDays(-days);
 
-        //    var donations = await _dbContext.Donations
-        //        .Include(d => d.Donor)
-        //}
+            return await _dbContext.Donations
+                .Include(d => d.Donor)
+                .Where(d => d.DonationDate >= dateThreshold)
+                .ToListAsync();
+        }
 
         public async Task SaveChangesAsync()
         {

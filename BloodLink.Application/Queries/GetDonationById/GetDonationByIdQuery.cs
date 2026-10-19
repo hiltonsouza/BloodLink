@@ -1,9 +1,12 @@
-﻿using MediatR;
+using BloodLink.Application.ViewModels;
+using MediatR;
 
 namespace BloodLink.Application.Queries.GetDonationById
 {
     public class GetDonationByIdQuery : IRequest<DonationViewModel>
     {
+        public GetDonationByIdQuery() { }
+
         public GetDonationByIdQuery(int id)
         {
             Id = id;

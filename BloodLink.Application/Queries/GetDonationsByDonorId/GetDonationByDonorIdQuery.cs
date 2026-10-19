@@ -1,10 +1,12 @@
-﻿using BloodLink.Core.Models;
+using BloodLink.Application.ViewModels;
+using BloodLink.Core.Models;
 using MediatR;
 
 namespace BloodLink.Application.Queries.GetDonationsByDonorId
 {
     public class GetDonationsByDonorIdQuery : IRequest<PaginationResult<DonationViewModel>>
     {
+        public GetDonationsByDonorIdQuery() { }
         public GetDonationsByDonorIdQuery(int donorId, int page)
         {
             DonorId = donorId;

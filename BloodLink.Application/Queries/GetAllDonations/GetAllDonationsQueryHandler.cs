@@ -1,5 +1,5 @@
-﻿using BloodLink.Application.Queries.GetAllDonation;
-using BloodLink.Application.Queries.GetDonationById;
+using BloodLink.Application.Queries.GetAllDonation;
+using BloodLink.Application.ViewModels;
 using BloodLink.Core.Models;
 using BloodLink.Core.Repositories;
 using MediatR;
@@ -26,7 +26,14 @@ namespace BloodLink.Application.Queries.GetAllDonations
 
             var donationsViewModel = donations
                 .Data
-                .Select(d => new DonationViewModel(d.DonorId, d.DonationDate, d.BloodVolumeInML))
+                .Select(d => new DonationViewModel(
+                    d.Id, 
+                    d.DonorId, 
+                    d.Donor != null ? d.Donor.FullName : string.Empty, 
+                    d.Donor != null ? d.Donor.BloodType.ToString() : string.Empty, 
+                    d.Donor != null ? d.Donor.RhFactor : string.Empty, 
+                    d.DonationDate, 
+                    d.BloodVolumeInML))
                 .ToList();
 
             var paginationDonationsViewModel = new PaginationResult<DonationViewModel>(
